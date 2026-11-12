@@ -1,4 +1,4 @@
-package com.hendrickoc.docker_manager.exeption;
+package com.hendrickoc.docker_manager.exception;
 
 import com.github.dockerjava.api.exception.ConflictException;
 import com.github.dockerjava.api.exception.NotFoundException;

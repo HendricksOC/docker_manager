@@ -1,7 +1,7 @@
 package com.hendrickoc.docker_manager.controllers;
 
 import com.hendrickoc.docker_manager.dto.ContainerResponse;
-import com.hendrickoc.docker_manager.services.DockerService;
+import com.hendrickoc.docker_manager.services.dockerServices.ContainerService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,35 +9,35 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/containers")
 public class DockerContainerController {
-    private final DockerService dockerService;
+    private final ContainerService containerService;
 
-    public DockerContainerController(DockerService dockerService) {
-        this.dockerService = dockerService;
+    public DockerContainerController(ContainerService containerService) {
+        this.containerService = containerService;
     }
 
     @GetMapping("")
     public List<ContainerResponse> listContainer(@RequestParam(required = false, defaultValue = "true") boolean showAll) {
-        return dockerService.listContainers(showAll);
+        return containerService.listContainers(showAll);
     }
 
     @PostMapping("/{id}/start")
     public void startContainer(@PathVariable String id) {
-        dockerService.startContainer(id);
+        containerService.startContainer(id);
     }
 
     @PostMapping("/{id}/stop")
     public void stopContainer(@PathVariable String id) {
-        dockerService.stopContainer(id);
+        containerService.stopContainer(id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteContainer(@PathVariable String id) {
-        dockerService.deleteContainer(id);
+        containerService.deleteContainer(id);
     }
 
     @PostMapping("")
     public String createContainer(@RequestParam String imageName) {
-        return dockerService.createContainer(imageName);
+        return containerService.createContainer(imageName);
     }
 
 
