@@ -15,12 +15,12 @@ public class DockerClientConfig {
     @Value("${docker.socket.path}")
     private String dockerSocketPath;
 
-
     @Bean
     public DockerClient buildDockerClient() {
         DefaultDockerClientConfig.Builder dockerClientConfigBuilder = DefaultDockerClientConfig
                 .createDefaultConfigBuilder();
-        if (this.dockerSocketPath != null && this.dockerSocketPath.startsWith("unix://")) {
+
+        if (this.dockerSocketPath != null && !this.dockerSocketPath.isBlank()) {
             dockerClientConfigBuilder.withDockerHost(dockerSocketPath)
                     .withDockerTlsVerify(false);
         }
@@ -34,11 +34,8 @@ public class DockerClientConfig {
                 .responseTimeout(Duration.ofSeconds(3))
                 .build();
 
-        DockerClient client = DockerClientBuilder.getInstance(dockerClientConfig)
+        return DockerClientBuilder.getInstance(dockerClientConfig)
                 .withDockerHttpClient(dockerHttpClient)
                 .build();
-        client.pingCmd().exec();
-
-        return client;
     }
 }
